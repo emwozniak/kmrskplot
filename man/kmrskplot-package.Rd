@@ -22,8 +22,9 @@ Maintainer: \packageMaintainer{kmrskplot}
 %}
 
 \keyword{ package }
-%\seealso{
-%}
+\seealso{
+  \code{\link{kmrsk.plot}}
+}
 \examples{
 library(survival)
 library(cmprsk)
