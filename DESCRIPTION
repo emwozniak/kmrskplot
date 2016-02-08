@@ -1,9 +1,10 @@
 Package: kmrskplot
 Type: Package
-Title: What the package does (short line)
+Title: Survival Plots
 Version: 1.0
 Date: 2016-02-08
-Author: Who wrote it
-Maintainer: Who to complain to <yourfault@somewhere.net>
-Description: More about what it does (maybe more than one line)
-License: What license is it under?
+Author: Erica Wozniak
+Maintainer: Erica Wozniak <ewozniak@mcw.edu>
+Description: This package generates Kaplan-Meier curves and cumulative incidence plots for competing risks models.
+Imports: survival, cmprsk
+License: GPL-2
