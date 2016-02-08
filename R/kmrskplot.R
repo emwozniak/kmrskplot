@@ -45,7 +45,10 @@ kmrsk.plot <- function(fit=fit, #Required
                        
                        #Legend options
                        group.names=names(fit$strata),
-                       group.order=seq(length(fit$n))
+                       group.order=seq(length(fit$n)),
+                       #For competing risks model, give the failure type to plot if only one
+                       failtype=NULL,
+                       legend=FALSE
 )
 
 {
@@ -154,6 +157,18 @@ kmrsk.plot <- function(fit=fit, #Required
   
   #Add the designated type of plot below
   
+  #If only one failure type should be plotted for a competing risks model, run the following:
+  if (!is.null(failtype)) {
+    cs.cuminc <- function(x, cause=failtype){
+      if (!is.null(x$Tests)) 
+        x <- x[names(x) != "Tests"]
+      which.out <- which(unlist(strsplit(names(x), " "))[seq(2,length(names(x))*2,2)]!=cause)
+      x[which.out] <- NULL
+      class(x) <- "cuminc"
+      return(x)
+    }
+  }
+  
   ###########
   # KM plot #
   ###########
@@ -166,7 +181,7 @@ kmrsk.plot <- function(fit=fit, #Required
           lty=lty,
           lwd=lwd,
           xmax=max(xlim.major),
-          ylim=min(ylim.major))
+          ymin=min(ylim.major))
   }
   
   
@@ -183,16 +198,38 @@ kmrsk.plot <- function(fit=fit, #Required
           lty=lty,
           lwd=lwd,
           xmax=max(xlim.major),
-          ylim=min(ylim.major))
+          ymin=min(ylim.major))
   }
   
   #######################
   # Competing risk plot #
   #######################
   
+  else if (type=="cmprsk" & !is.null(failtype)) {
+ 
+  }
+  
+  else if (type=="cmprsk" & is.null(failtype)) {
+    
+  }
+  
   ##################################
   # Competing risk complement plot #
   ##################################
+  
+  else if (type="1-cmprsk" & !is.null(failtype)) {
+    
+  }
+  
+  else if (type="1-cmprsk" & is.null(failtype))
+  
+  ##################
+  # Legent options #
+  ##################
+  
+  if (legend==TRUE) {
+    
+  }
   
   par(op)
 }

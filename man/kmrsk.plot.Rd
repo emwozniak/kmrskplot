@@ -93,6 +93,12 @@
   \item{group.order}{
   Numeric vector giving order of groups to be printed in risk table. Optional.
   }
+  \item{failtype}{
+  The failure type that should be plotted, if only one, for a competing risks model. Optional.
+  }
+  \item{legend}{
+  Logical indicator for printing a legend on the plot. Optional; defaults to FALSE since the information is found by default in the risk table.
+  }
 }
 
 \value{Returns survival plot with the requested attributes.}
