@@ -37,6 +37,7 @@ km.plot <- function(fit=fit, #Required
                     axis.label.size=0.9,
                     #Additional space to accomodate long labels
                     extra.left.margin=3,
+                    font.family="serif",
                     
                     #Risk table options
                     print.risk.table=TRUE,
@@ -62,7 +63,7 @@ km.plot <- function(fit=fit, #Required
       mar=c(4 + length(fit$strata), 4 + extra.left.margin, 4, 2) + 0.1, 
       mgp=c(3, 0.5, 0), 
       las=1, 
-      family="serif")
+      family=font.family)
   
   #Establish plot window
   plot.new()
