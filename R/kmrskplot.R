@@ -202,7 +202,15 @@ km.plot <- function(fit=fit, #Required
 #Input should include the various inputs to cuminc so we don't have to deal with
 #extracting lists from the cuminc class output
 
+#Competing risks plot
+#Pretend transplant and death are competing risks
+#pbc.cr <- na.omit(pbc[, c("time", "status", "trt")])
+#test <- cuminc(ftime=pbc.cr$time, fstatus=pbc.cr$status, group=pbc.cr$trt, cencode=0)
+
 #fit must be a cuminc object for CIFs from competing risks data
+
+#After plotting grid, overlay CIFs
+#par(new=T)
 
 #If only one failure type should be plotted for a competing risks model, run the following:
 # if (!is.null(failtype)) {
