@@ -5,7 +5,7 @@
 
 \description{This function generates Kaplan-Meier or cumulative incidence plots for survival and competing risks models.
 }
-\usage{kmrsk.plot(fit, type, xlim.major, xlim.minor, ylim.major, ylim.minor, grid, col.grid.major, col.grid.minor, lwd.grid.major, lwd.grid.minor, conf.int, mark.time, col, lty, lwd, plot.title, plot.title.size, plot.subtitle, plot.subtitle.size, axis.label.size, extra.left.margin, print.risk.table, print.group.lines, print.group.names, risk.table.title, group.names, group.order)
+\usage{kmrsk.plot(fit, type, xlim.major, xlim.minor, ylim.major, ylim.minor, grid, col.grid.major, col.grid.minor, lwd.grid.major, lwd.grid.minor, conf.int, mark.time, col, lty, lwd, plot.title, plot.title.size, plot.subtitle, x.axis.label, y.axis.label, plot.subtitle.size, axis.label.size, extra.left.margin, font.family, print.risk.table, print.group.lines, print.group.names, risk.table.title, group.names, group.order, legend, legend.x.loc, legend.y.loc)
 }
 
 \arguments{
@@ -69,11 +69,20 @@
   \item{plot.subtitle.size}{
   Font size for plot subtitle. Optional.
   }
+  \item{x.axis.label}{
+  Label for the x-axis. Optional; defaults to "Time".
+  }
+  \item{y.axis.label}{
+  Label for the y-axis. Optional; defaults to "Probability".
+  }
   \item{axis.label.size}{
   Font size for axis labels. Optional.
   }
   \item{extra.left.margin}{
   Increase numeric value for added left margin padding to accomodate long labels. Optional.
+  }
+  \item{font.family}{
+  Choice of "sans", "serif", "mono", or a specified font set up to work on the user's system. Optional; defaults to "serif".
   }
   \item{print.risk.table}{
   Logical indicator for printing risk table at specified time points. Optional; defaults to TRUE.
@@ -99,9 +108,15 @@
   \item{legend}{
   Logical indicator for printing a legend on the plot. Optional; defaults to FALSE since the information is found by default in the risk table.
   }
+  \item{legend.x.location}{
+  X-axis coordinate or indicator for the legend location. Optional; defaults to "bottomleft".
+  }
+  \item{legend.y.location}{
+  Y-axis coordinate for the legend location. Optional; defaults to NULL.
+  }
 }
 
-\value{Returns survival plot with the requested attributes.}
+\value{Returns a Kaplan-Meier plot with the requested attributes.}
 
 \author{Erica Wozniak}
 
@@ -117,20 +132,17 @@ pbc.km$status[pbc.km$status==2] <- 1
 pbc.km$SurvObj <- with(pbc.km, Surv(time=time, event=status))
 fit <- survfit(SurvObj ~ trt, data=pbc.km, conf.type="log-log")
 
-#Competing risks plot
-#Pretend transplant and death are competing risks
-#pbc.cr <- na.omit(pbc[, c("time", "status", "trt")])
-#test <- cuminc(ftime=pbc.cr$time, fstatus=pbc.cr$status, group=pbc.cr$trt, cencode=0)
-#cr <- crr(ftime=pbc.cr$time, fstatus=pbc.cr$status, cov1=pbc.cr$trt) 
-
-#t <- pbc.cr[pbc.cr$time>0, ]
-
-kmrsk.plot(fit=fit,
-           type="km",
-           col=c("darkblue", "darkred"),
-           risk.table.title=bquote(underline("Patients at risk:")),
-           plot.title=c("Patient survival after transplant registration"),
-           plot.subtitle=c("By treatment status"),
-           group.names=c("D-penicillamine", "Placebo"),
-           xlim.major=c(0, 1000, 2000, 3000, 4000, 4500, 5000))
+#If gridlines are extending outside the plot border, run
+#"dev.off()" and then run the plotting function again.
+km.plot(fit=fit,
+        type="km",
+        #Add an extra major gridline and risk table column at time 4500
+        xlim.major=c(0, 1000, 2000, 3000, 4000, 4500, 5000),
+        col=c("orange3", "olivedrab"),
+        plot.title="Primary biliary cirrhosis survival",
+        plot.subtitle="By randomized treatment status",
+        y.axis.label="Survival",
+        x.axis.label="Time since registration (days)",
+        group.names=c("D-penacillamine", "Placebo"),
+        risk.table.title=bquote(italic("Patients at risk:")))
 }

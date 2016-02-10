@@ -18,8 +18,9 @@
 
 Maintainer: \packageMaintainer{kmrskplot}
 }
-%\references{
-%}
+\references{
+Risk table formatting was borrowed heavily from \link{http://biostat.mc.vanderbilt.edu/wiki/pub/Main/TatsukiRcode/TatsukiRcodeKMplot.r}.
+}
 
 \keyword{ package }
 \seealso{
@@ -51,5 +52,4 @@ km.plot(fit=fit,
         x.axis.label="Time since registration (days)",
         group.names=c("D-penacillamine", "Placebo"),
         risk.table.title=bquote(italic("Patients at risk:")))
-
 }
