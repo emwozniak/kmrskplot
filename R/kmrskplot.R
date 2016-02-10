@@ -1,54 +1,56 @@
-#############################
-# Establish plotting region #
-#############################
+##########################################
+# KAPLAN-MEIER PLOTS FOR CLASS 'SURVFIT' #
+##########################################
 
 #fit must be a survfit object for KM plots
-#or cuminc object for competing risks plots
-kmrsk.plot <- function(fit=fit, #Required 
-                       #Plot types: "km", "1-km", "cmprsk", "1-cmprsk"
-                       type=NULL, #Required
-                       xlim.major=pretty(fit$time),
-                       xlim.minor=((pretty(fit$time) + 
-                                      c(NA, pretty(fit$time)[-length(pretty(fit$time))]))/2)[-1],
-                       ylim.major=pretty(c(0, 1), 5),
-                       ylim.minor=((pretty(c(0, 1), 5) + 
-                                      c(NA, pretty(c(0, 1), 5)[-length(pretty(c(0, 1), 5))]))/2)[-1],
-                       grid=TRUE,
-                       col.grid.major="gray90",
-                       col.grid.minor="gray97",
-                       lwd.grid.major=0.5,
-                       lwd.grid.minor=0.2,
-                       
-                       #Info for plotting data
-                       conf.int=FALSE,
-                       mark.time=FALSE,
-                       #These values should recycle
-                       col=rep("black", length(fit$strata)),
-                       lty=rep(1, length(fit$strata)),
-                       lwd=rep(1, length(fit$strata)),
-                       
-                       #Labels
-                       plot.title="",
-                       plot.title.size=1.25,
-                       plot.subtitle="",
-                       plot.subtitle.size=1,
-                       
-                       axis.label.size=0.9,
-                       #Additional space to accomodate long labels
-                       extra.left.margin=3,
-                       
-                       #Risk table options
-                       print.risk.table=TRUE,
-                       print.group.lines=TRUE,
-                       print.group.names=TRUE,
-                       risk.table.title="Total at risk",
-                       
-                       #Legend options
-                       group.names=names(fit$strata),
-                       group.order=seq(length(fit$n)),
-                       #For competing risks model, give the failure type to plot if only one
-                       failtype=NULL,
-                       legend=FALSE
+km.plot <- function(fit=fit, #Required 
+                    #Plot types: "km", "1-km"
+                    type=NULL, #Required
+                    xlim.major=pretty(fit$time),
+                    xlim.minor=((pretty(fit$time) + 
+                                   c(NA, pretty(fit$time)[-length(pretty(fit$time))]))/2)[-1],
+                    ylim.major=pretty(c(0, 1), 5),
+                    ylim.minor=((pretty(c(0, 1), 5) + 
+                                   c(NA, pretty(c(0, 1), 5)[-length(pretty(c(0, 1), 5))]))/2)[-1],
+                    grid=TRUE,
+                    col.grid.major="gray90",
+                    col.grid.minor="gray97",
+                    lwd.grid.major=0.5,
+                    lwd.grid.minor=0.2,
+                    
+                    #Info for plotting data
+                    conf.int=FALSE,
+                    mark.time=FALSE,
+                    #These values should recycle
+                    col=rep("black", length(fit$strata)),
+                    lty=rep(1, length(fit$strata)),
+                    lwd=rep(1, length(fit$strata)),
+                    
+                    #Labels
+                    plot.title="",
+                    plot.title.size=1.25,
+                    plot.subtitle="",
+                    plot.subtitle.size=1,
+                    x.axis.label="Time",
+                    y.axis.label="Probability",
+                    
+                    axis.label.size=0.9,
+                    #Additional space to accomodate long labels
+                    extra.left.margin=3,
+                    
+                    #Risk table options
+                    print.risk.table=TRUE,
+                    print.group.lines=TRUE,
+                    print.group.names=TRUE,
+                    risk.table.title="Total at risk",
+                    
+                    #Legend options
+                    group.names=names(fit$strata),
+                    group.order=seq(length(fit$n)),
+                    legend=FALSE,
+                    legend.x.loc="bottomleft",
+                    legend.y.loc=NULL
+                    
 )
 
 {
@@ -68,7 +70,6 @@ kmrsk.plot <- function(fit=fit, #Required
   
   #Establish gridlines if grid==T
   if (grid==TRUE) {
-    
     abline(v=xlim.minor, lwd=lwd.grid.minor, col=col.grid.minor)
     abline(h=ylim.minor, lwd=lwd.grid.minor, col=col.grid.minor)
     abline(v=xlim.major, lwd=lwd.grid.major, col=col.grid.major)
@@ -78,24 +79,19 @@ kmrsk.plot <- function(fit=fit, #Required
   #Put a box around the plot
   box(which="plot", lty="solid")
   
-  
-  ###########################
-  # Include axes and labels #
-  ###########################
-  
+  #Include axes and labels
   axis(1, at=xlim.major, tck=-0.018, cex.axis=axis.label.size)
   axis(1, at=xlim.minor, tck=-0.01, labels=FALSE)
   axis(2, at=ylim.major, tck=-0.018, cex.axis=axis.label.size)
   axis(2, at=ylim.minor, tck=-0.01, labels=FALSE)
+  title(xlab=x.axis.label, line=1.75)
+  title(ylab=y.axis.label, line=2.25)
   
   #Give these multiple options with defaults
   title(plot.title, cex.main=plot.title.size, font.main=1)
   mtext(plot.subtitle, line=0.25, cex=plot.subtitle.size)
   
-  #################################
-  # Print risk table beneath plot #
-  #################################
-  
+  #Print a risk table beneath the plot if requested
   if (print.risk.table==TRUE) {
     #Print group names in bottom plotting margin
     group.pos <- (par()$usr[2] - par()$usr[1])/(-8)  
@@ -157,22 +153,7 @@ kmrsk.plot <- function(fit=fit, #Required
   
   #Add the designated type of plot below
   
-  #If only one failure type should be plotted for a competing risks model, run the following:
-  if (!is.null(failtype)) {
-    cs.cuminc <- function(x, cause=failtype){
-      if (!is.null(x$Tests)) 
-        x <- x[names(x) != "Tests"]
-      which.out <- which(unlist(strsplit(names(x), " "))[seq(2,length(names(x))*2,2)]!=cause)
-      x[which.out] <- NULL
-      class(x) <- "cuminc"
-      return(x)
-    }
-  }
-  
-  ###########
-  # KM plot #
-  ###########
-  
+  #Standard KM plot
   if (type=="km") {
     lines(fit, 
           conf.int=conf.int,
@@ -184,11 +165,7 @@ kmrsk.plot <- function(fit=fit, #Required
           ymin=min(ylim.major))
   }
   
-  
-  ######################
-  # KM complement plot #
-  ######################
-  
+  #KM complement plot
   else if (type=="1-km") {
     lines(fit, 
           fun=function(x) 1-x,
@@ -201,36 +178,32 @@ kmrsk.plot <- function(fit=fit, #Required
           ymin=min(ylim.major))
   }
   
-  #######################
-  # Competing risk plot #
-  #######################
-  
-  else if (type=="cmprsk" & !is.null(failtype)) {
- 
-  }
-  
-  else if (type=="cmprsk" & is.null(failtype)) {
-    
-  }
-  
-  ##################################
-  # Competing risk complement plot #
-  ##################################
-  
-  else if (type="1-cmprsk" & !is.null(failtype)) {
-    
-  }
-  
-  else if (type="1-cmprsk" & is.null(failtype))
-  
-  ##################
-  # Legent options #
-  ##################
-  
+  #Legend options
   if (legend==TRUE) {
-    
-  }
-  
+    legend(x=legend.x.loc, 
+           y=legend.y.loc, 
+           legend=group.names[group.order], 
+           col=col[group.order],
+           lty=lty[group.order],
+           lwd=lwd[group.order],
+           cex=axis.label.size,
+           bty="o", 
+           bg="white",
+           inset=0.01)
+  }  
   par(op)
 }
 
+#fit must be a cuminc object for CIFs from competing risks data
+
+#If only one failure type should be plotted for a competing risks model, run the following:
+# if (!is.null(failtype)) {
+#   cs.cuminc <- function(x, cause=failtype){
+#     if (!is.null(x$Tests)) 
+#       x <- x[names(x) != "Tests"]
+#     which.out <- which(unlist(strsplit(names(x), " "))[seq(2,length(names(x))*2,2)]!=cause)
+#     x[which.out] <- NULL
+#     class(x) <- "cuminc"
+#     return(x)
+#   }
+# }
