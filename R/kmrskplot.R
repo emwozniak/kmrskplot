@@ -195,6 +195,13 @@ km.plot <- function(fit=fit, #Required
   par(op)
 }
 
+#####################################################
+# CUMULATIVE INCIDENCE FUNCTIONS FOR CLASS 'CUMINC' #
+#####################################################
+
+#Input should include the various inputs to cuminc so we don't have to deal with
+#extracting lists from the cuminc class output
+
 #fit must be a cuminc object for CIFs from competing risks data
 
 #If only one failure type should be plotted for a competing risks model, run the following:
