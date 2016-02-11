@@ -238,7 +238,14 @@ cmprsk.plot <- function(#Inputs needed to run cuminc function
                         #CIF options
                         col="black",
                         lwd=1,
-                        lty=1
+                        lty=1,
+                        
+                        #Legend options
+                        group.names=names(fit$strata),
+                        group.order=seq(length(fit$n)),
+                        legend=FALSE,
+                        legend.x.loc="bottomleft",
+                        legend.y.loc=NULL
                         )
 {
   #Evaluate the cuminc functions
@@ -302,6 +309,20 @@ cmprsk.plot <- function(#Inputs needed to run cuminc function
               col=col,
               lty=lty,
               lwd=lwd)
+  
+  #Legend options
+  if (legend==TRUE) {
+    legend(x=legend.x.loc, 
+           y=legend.y.loc, 
+           legend=group.names[group.order], 
+           col=col[group.order],
+           lty=lty[group.order],
+           lwd=lwd[group.order],
+           cex=axis.label.size,
+           bty="o", 
+           bg="white",
+           inset=0.01)
+  } 
   
 }
 
