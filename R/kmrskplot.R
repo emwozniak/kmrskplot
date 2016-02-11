@@ -234,6 +234,11 @@ cmprsk.plot <- function(#Inputs needed to run cuminc function
                         plot.title.size=1.25,
                         plot.subtitle="",
                         plot.subtitle.size=1,
+                        
+                        #CIF options
+                        col="black",
+                        lwd=1,
+                        lty=1
                         )
 {
   #Evaluate the cuminc functions
@@ -282,6 +287,21 @@ cmprsk.plot <- function(#Inputs needed to run cuminc function
   #Give these multiple options with defaults
   title(plot.title, cex.main=plot.title.size, font.main=1)
   mtext(plot.subtitle, line=0.25, cex=plot.subtitle.size)
+  
+  #Overlay CIFs
+  par(new=TRUE)
+  
+  plot.cuminc(fit,
+              ylim=c(min(ylim.major), max(ylim.major)),
+              xlim=c(min(xlim.major), max(xlim.major)),
+              xlab="",
+              ylab="",
+              xaxt="n",
+              yaxt="n",
+              wh=c(0, 3),
+              col=col,
+              lty=lty,
+              lwd=lwd)
   
 }
 
