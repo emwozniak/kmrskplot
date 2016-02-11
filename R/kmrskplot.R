@@ -199,6 +199,94 @@ km.plot <- function(fit=fit, #Required
 # CUMULATIVE INCIDENCE FUNCTIONS FOR CLASS 'CUMINC' #
 #####################################################
 
+cmprsk.plot <- function(#Inputs needed to run cuminc function
+                        ftime,
+                        fstatus,
+                        group,
+                        cencode=0,
+                        subset.var,
+                        #subset.val needs to be a quoted value
+                        subset.val,
+                        
+                        #Plotting options
+                        font.family="serif",
+                        extra.left.margin=3,
+                        
+                        #Grid options
+                        grid=TRUE,
+                        xlim.major=pretty(ftime),
+                        xlim.minor=((pretty(ftime) + 
+                                       c(NA, pretty(ftime)[-length(pretty(ftime))]))/2)[-1],
+                        ylim.major=pretty(c(0, 1), 5),
+                        ylim.minor=((pretty(c(0, 1), 5) + 
+                                       c(NA, pretty(c(0, 1), 5)[-length(pretty(c(0, 1), 5))]))/2)[-1],
+                        col.grid.major="gray90",
+                        col.grid.minor="gray97",
+                        lwd.grid.major=0.5,
+                        lwd.grid.minor=0.2,
+                        
+                        #Axis options
+                        axis.label.size=0.9,
+                        x.axis.label="Time",
+                        y.axis.label="Probability",
+                        
+                        plot.title="",
+                        plot.title.size=1.25,
+                        plot.subtitle="",
+                        plot.subtitle.size=1,
+                        )
+{
+  #Evaluate the cuminc functions
+  if (missing(subset.var) & missing(subset.val)) {
+    fit <- cuminc(ftime, fstatus, group, cencode=cencode)
+  }
+  
+  else if (!(missing(subset.var) & missing(subset.val))) {
+    fit <- cuminc(ftime, fstatus, group, cencode=cencode,
+                  subset=subset.var==subset.val)
+  }
+  
+  #Copy current/default plotting parameters to reset after building plot
+  op <- par(no.readonly=TRUE)
+  
+  #Tick labels closer to axis, rotated text, wider left margin
+  par(oma=c(1, 1, 1, 1), 
+      mar=c(4 + (length(unique(group)) + length(unique(fstatus))), 4 + extra.left.margin, 4, 2) + 0.1, 
+      mgp=c(3, 0.5, 0), 
+      las=1, 
+      family=font.family)
+  
+  #Establish plot window
+  plot.new()
+  plot.window(c(min(xlim.major), max(xlim.major)), c(min(ylim.major), max(ylim.major)))
+  
+  #Establish gridlines if grid==T
+  if (grid==TRUE) {
+    abline(v=xlim.minor, lwd=lwd.grid.minor, col=col.grid.minor)
+    abline(h=ylim.minor, lwd=lwd.grid.minor, col=col.grid.minor)
+    abline(v=xlim.major, lwd=lwd.grid.major, col=col.grid.major)
+    abline(h=ylim.major, lwd=lwd.grid.major, col=col.grid.major)
+  }
+  
+  #Put a box around the plot
+  box(which="plot", lty="solid")
+  
+  #Include axes and labels
+  axis(1, at=xlim.major, tck=-0.018, cex.axis=axis.label.size)
+  axis(1, at=xlim.minor, tck=-0.01, labels=FALSE)
+  axis(2, at=ylim.major, tck=-0.018, cex.axis=axis.label.size)
+  axis(2, at=ylim.minor, tck=-0.01, labels=FALSE)
+  title(xlab=x.axis.label, line=1.75)
+  title(ylab=y.axis.label, line=2.25)
+  
+  #Give these multiple options with defaults
+  title(plot.title, cex.main=plot.title.size, font.main=1)
+  mtext(plot.subtitle, line=0.25, cex=plot.subtitle.size)
+  
+}
+
+
+
 #Input should include the various inputs to cuminc so we don't have to deal with
 #extracting lists from the cuminc class output
 
