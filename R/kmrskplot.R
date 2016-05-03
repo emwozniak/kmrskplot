@@ -5,7 +5,7 @@
 #fit must be a survfit object for KM plots
 km.plot <- function(fit=fit, #Required 
                     #Plot types: "km", "1-km"
-                    type=NULL, #Required
+                    type="km", #Required
                     xlim.major=pretty(fit$time),
                     xlim.minor=((pretty(fit$time) + 
                                    c(NA, pretty(fit$time)[-length(pretty(fit$time))]))/2)[-1],
@@ -192,6 +192,8 @@ km.plot <- function(fit=fit, #Required
            bg="white",
            inset=0.01)
   }  
+  
+  #Reset original plotting parameters
   par(op)
 }
 

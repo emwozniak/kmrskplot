@@ -1,20 +1,19 @@
-\name{kmrsk.plot}
-\alias{kmrsk.plot}
-\alias{kmrskplot}
+\name{km.plot}
+\alias{km.plot}
 
-\title{Survival Plot}
+\title{Kaplan-Meier Survival Plot}
 
-\description{This function generates Kaplan-Meier or cumulative incidence plots for survival and competing risks models.
+\description{This function generates Kaplan-Meier survival curves.
 }
-\usage{kmrsk.plot(fit, type, xlim.major, xlim.minor, ylim.major, ylim.minor, grid, col.grid.major, col.grid.minor, lwd.grid.major, lwd.grid.minor, conf.int, mark.time, col, lty, lwd, plot.title, plot.title.size, plot.subtitle, x.axis.label, y.axis.label, plot.subtitle.size, axis.label.size, extra.left.margin, font.family, print.risk.table, print.group.lines, print.group.names, risk.table.title, group.names, group.order, legend, legend.x.loc, legend.y.loc)
+\usage{km.plot(fit, type, xlim.major, xlim.minor, ylim.major, ylim.minor, grid, col.grid.major, col.grid.minor, lwd.grid.major, lwd.grid.minor, conf.int, mark.time, col, lty, lwd, plot.title, plot.title.size, plot.subtitle, plot.subtitle.size, x.axis.label, y.axis.label, axis.label.size, extra.left.margin, font.family, print.risk.table, print.group.lines, print.group.names, risk.table.title, group.names, group.order, legend, legend.x.loc, legend.y.loc)
 }
 
 \arguments{
   \item{fit}{
-  Fitted model object from \code{\link{survfit}} or \code{\link{cuminc}}. Required.
+  Fitted model object from \code{\link{survfit}}. Required.
   }
   \item{type}{
-  Type of plot or complement. Choose from "km", "1-km", "cmprsk", "1-cmprsk". Required.
+  Survival plot ("km") or complement ("1-km"). Optional; defaults to "km".
   }
   \item{xlim.major}{
   Vector of x-axis locations for labels and major gridlines. Optional.
@@ -29,7 +28,7 @@
   Vector of y-axis locations for minor gridlines. Optional.
   }
   \item{grid}{
-  Logical indicator for gridded background. Optional; defaults to TRUE.
+  Plot gridlines? Optional logical; defaults to TRUE.
   }
   \item{col.grid.major}{
   Color of major gridlines. Optional.
@@ -44,10 +43,10 @@
   Line width of minor gridlines. Optional.
   }
   \item{conf.int}{
-  Logical indicator for confidence intervals on plots. Optional; defaults to FALSE.
+  Plot confidence intervals? Optional logical; defaults to FALSE.
   }
   \item{mark.time}{
-  Logical indicator for tick marks at censoring locations. Optional; defaults to FALSE.
+  Plot censoring tick marks? Optional logical; defaults to FALSE.
   }
   \item{col}{
   Vector of colors for plotted curves. Optional; defaults to all black.
@@ -86,13 +85,13 @@
   Choice of "sans", "serif", "mono", or a specified font set up to work on the user's system. Optional; defaults to "serif".
   }
   \item{print.risk.table}{
-  Logical indicator for printing risk table at specified time points. Optional; defaults to TRUE.
+  Print risk table beneath plot? Optional logical; defaults to TRUE.
   }
   \item{print.group.lines}{
-  Logical indicator for printing legend lines next to risk table. Optional; defaults to TRUE.
+  Print legend lines next to risk table? Optional logical; defaults to TRUE.
   }
   \item{print.group.names}{
-  Logical indicator for printing group/strata names next to risk table. Optional; defaults to TRUE.
+  Print group/strata names next to risk table? Optional logical; defaults to TRUE.
   }
   \item{risk.table.title}{
   Header for risk table. Optional; defaults to "Total at risk".
@@ -103,14 +102,11 @@
   \item{group.order}{
   Numeric vector giving order of groups to be printed in risk table. Optional.
   }
-  \item{failtype}{
-  The failure type that should be plotted, if only one, for a competing risks model. Optional.
-  }
   \item{legend}{
   Logical indicator for printing a legend on the plot. Optional; defaults to FALSE since the information is found by default in the risk table.
   }
   \item{legend.x.location}{
-  X-axis coordinate or indicator for the legend location. Optional; defaults to "bottomleft".
+  X-axis coordinate or position for the legend location. Optional; defaults to "bottomleft".
   }
   \item{legend.y.location}{
   Y-axis coordinate for the legend location. Optional; defaults to NULL.
@@ -123,7 +119,6 @@
 
 \examples{
 library(survival)
-library(cmprsk)
 
 #KM plot for time to death
 #Censor those who receive a transplant or are indicated by the dataset as censored
