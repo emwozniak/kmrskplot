@@ -1,5 +1,6 @@
 \name{kmrsk.plot}
 \alias{kmrsk.plot}
+\alias{kmrskplot}
 
 \title{Survival Plot}
 
@@ -36,7 +37,7 @@
   \item{col.grid.minor}{
   Color of minor gridlines. Optional.
   }
-  \item{lwd.grid.major} {
+  \item{lwd.grid.major}{
   Line width of major gridlines. Optional.
   }
   \item{lwd.grid.minor}{
