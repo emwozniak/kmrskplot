@@ -5,7 +5,7 @@
 
 \description{This function generates Kaplan-Meier survival curves.
 }
-\usage{km.plot(fit, type, xlim.major, xlim.minor, ylim.major, ylim.minor, grid, col.grid.major, col.grid.minor, lwd.grid.major, lwd.grid.minor, conf.int, mark.time, col, lty, lwd, plot.title, plot.title.size, plot.subtitle, plot.subtitle.size, x.axis.label, y.axis.label, axis.label.size, extra.left.margin, font.family, print.risk.table, print.group.lines, print.group.names, risk.table.title, group.names, group.order, legend, legend.x.location, legend.y.location)
+\usage{km.plot(fit, type, xlim.major, xlim.minor, ylim.major, ylim.minor, grid, col.grid.major, col.grid.minor, lwd.grid.major, lwd.grid.minor, conf.int, mark.time, col, lty, lwd, plot.title, plot.title.size, plot.subtitle, plot.subtitle.size, x.axis.label, y.axis.label, axis.label.size, extra.left.margin, font.family, print.risk.table, print.group.lines, print.group.names, risk.table.title, group.names, group.order, legend, legend.x.loc, legend.y.loc)
 }
 
 \arguments{
@@ -105,10 +105,10 @@
   \item{legend}{
   Logical indicator for printing a legend on the plot. Optional; defaults to FALSE since the information is found by default in the risk table.
   }
-  \item{legend.x.location}{
+  \item{legend.x.loc}{
   X-axis coordinate or position for the legend location. Optional; defaults to "bottomleft".
   }
-  \item{legend.y.location}{
+  \item{legend.y.loc}{
   Y-axis coordinate for the legend location. Optional; defaults to NULL.
   }
 }
