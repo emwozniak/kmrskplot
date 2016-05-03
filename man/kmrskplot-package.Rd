@@ -18,14 +18,14 @@
 
 Maintainer: \packageMaintainer{kmrskplot}
 }
-\references{
-Risk table formatting was borrowed heavily from \link{http://biostat.mc.vanderbilt.edu/wiki/pub/Main/TatsukiRcode/TatsukiRcodeKMplot.r}.
-}
+%\references{
+%Risk table formatting was borrowed heavily from \link{http://biostat.mc.vanderbilt.edu/wiki/pub%/Main/TatsukiRcode/TatsukiRcodeKMplot.r}.
+%}
 
 \keyword{ package }
 \seealso{
   \code{\link{km.plot}}
-  \code{\link{cmprsk.plot}}
+  %\code{\link{cmprsk.plot}}
 }
 \examples{
 library(survival)

@@ -5,7 +5,7 @@
 
 \description{This function generates Kaplan-Meier survival curves.
 }
-\usage{km.plot(fit, type, xlim.major, xlim.minor, ylim.major, ylim.minor, grid, col.grid.major, col.grid.minor, lwd.grid.major, lwd.grid.minor, conf.int, mark.time, col, lty, lwd, plot.title, plot.title.size, plot.subtitle, plot.subtitle.size, x.axis.label, y.axis.label, axis.label.size, extra.left.margin, font.family, print.risk.table, print.group.lines, print.group.names, risk.table.title, group.names, group.order, legend, legend.x.loc, legend.y.loc)
+\usage{km.plot(fit, type, xlim.major, xlim.minor, ylim.major, ylim.minor, grid, col.grid.major, col.grid.minor, lwd.grid.major, lwd.grid.minor, conf.int, mark.time, col, lty, lwd, plot.title, plot.title.size, plot.subtitle, plot.subtitle.size, x.axis.label, y.axis.label, axis.label.size, extra.left.margin, font.family, print.risk.table, print.group.lines, print.group.names, risk.table.title, group.names, group.order, legend, legend.x.location, legend.y.location)
 }
 
 \arguments{
