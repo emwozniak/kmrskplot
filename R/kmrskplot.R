@@ -3,9 +3,8 @@
 ##########################################
 
 #fit must be a survfit object for KM plots
-km.plot <- function(fit=fit, #Required 
-                    #Plot types: "km", "1-km"
-                    type="km", #Required
+km.plot <- function(fit=fit,
+                    type="km",
                     xlim.major=pretty(fit$time),
                     xlim.minor=((pretty(fit$time) + 
                                    c(NA, pretty(fit$time)[-length(pretty(fit$time))]))/2)[-1],
