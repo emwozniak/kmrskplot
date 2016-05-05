@@ -3,196 +3,214 @@
 ##########################################
 
 #fit must be a survfit object for KM plots
-km.plot <- function(fit=fit,
-                    type="km",
-                    xlim.major=pretty(fit$time),
-                    xlim.minor=((pretty(fit$time) + 
-                                   c(NA, pretty(fit$time)[-length(pretty(fit$time))]))/2)[-1],
-                    ylim.major=pretty(c(0, 1), 5),
-                    ylim.minor=((pretty(c(0, 1), 5) + 
-                                   c(NA, pretty(c(0, 1), 5)[-length(pretty(c(0, 1), 5))]))/2)[-1],
-                    grid=TRUE,
-                    col.grid.major="gray90",
-                    col.grid.minor="gray97",
-                    lwd.grid.major=0.5,
-                    lwd.grid.minor=0.2,
+km_plot <- function(fit  = fit,
+                    type = "km",
                     
-                    #Info for plotting data
-                    conf.int=FALSE,
-                    mark.time=FALSE,
-                    #These values should recycle
-                    col=rep("black", length(fit$strata)),
-                    lty=rep(1, length(fit$strata)),
-                    lwd=rep(1, length(fit$strata)),
+                    # Axis measures
+                    xlim_major = pretty(fit$time),
+                    xlim_minor = ((pretty(fit$time) + 
+                                   c(NA, pretty(fit$time)[-length(pretty(fit$time))])) / 
+                                   2)[-1],
+                    ylim_major = pretty(c(0, 1), 5),
+                    ylim_minor = ((pretty(c(0, 1), 5) + 
+                                   c(NA, pretty(c(0, 1), 5)[-length(pretty(c(0, 1), 5))])) /
+                                   2)[-1],
                     
-                    #Labels
-                    plot.title="",
-                    plot.title.size=1.25,
-                    plot.subtitle="",
-                    plot.subtitle.size=1,
-                    x.axis.label="Time",
-                    y.axis.label="Probability",
+                    # Gridlines
+                    grid = TRUE,
+                    col_grid_major = "gray90",
+                    col_grid_minor = "gray97",
+                    lwd_grid_major = 0.5,
+                    lwd_grid_minor = 0.2,
                     
-                    axis.label.size=0.9,
-                    #Additional space to accomodate long labels
-                    extra.left.margin=3,
-                    font.family="serif",
+                    # Plotting options
+                    conf_int  = FALSE,
+                    mark_time = FALSE,
+                    col = rep("black", length(fit$strata)),
+                    lty = rep(1, length(fit$strata)),
+                    lwd = rep(1, length(fit$strata)),
                     
-                    #Risk table options
-                    print.risk.table=TRUE,
-                    print.group.lines=TRUE,
-                    print.group.names=TRUE,
-                    risk.table.title="Total at risk",
+                    # Headers and axis labels
+                    plot_title         = "",
+                    plot_title_size    = 1.25,
+                    plot_subtitle      = "",
+                    plot_subtitle_size = 1,
+                    x_axis_label       = "Time",
+                    y_axis_label       = "Probability",
+                    axis_label_size    = 0.9,
+                    extra_left_margin  = 3,
+                    font_family        = "serif",
                     
-                    #Legend options
-                    group.names=names(fit$strata),
-                    group.order=seq(length(fit$n)),
-                    legend=FALSE,
-                    legend.x.loc="bottomleft",
-                    legend.y.loc=NULL
+                    # Risk table options
+                    print_risk_table  = TRUE,
+                    print_group_lines = TRUE,
+                    print_group_names = TRUE,
+                    risk_table_title  = "Total at risk",
                     
-)
-
-{
-  #Copy current/default plotting parameters to reset after building plot
-  op <- par(no.readonly=TRUE)
+                    # Legend options
+                    legend = FALSE,
+                    group_names  = names(fit$strata),
+                    group_order  = seq(length(fit$n)),
+                    legend_x_loc = "bottomleft",
+                    legend_y_loc = NULL
+                    ) {
   
-  #Tick labels closer to axis, rotated text, wider left margin
-  par(oma=c(1, 1, 1, 1), 
-      mar=c(4 + length(fit$strata), 4 + extra.left.margin, 4, 2) + 0.1, 
-      mgp=c(3, 0.5, 0), 
-      las=1, 
-      family=font.family)
+  # Copy current/default plotting parameters to reset after building plot
+  op <- par(no.readonly = TRUE)
   
-  #Establish plot window
+  # Tick labels closer to axis, rotated text, wider left margin
+  par(oma = c(1, 1, 1, 1), 
+      mar = c(4 + length(fit$strata), 4 + extra_left_margin, 4, 2) + 0.1, 
+      mgp = c(3, 0.5, 0), 
+      las = 1, 
+      family = font_family)
+  
+  # Establish plotting window
   plot.new()
-  plot.window(c(min(xlim.major), max(xlim.major)), c(min(ylim.major), max(ylim.major)))
+  plot.window(c(min(xlim_major), max(xlim_major)), c(min(ylim_major), max(ylim_major)))
   
-  #Establish gridlines if grid==T
-  if (grid==TRUE) {
-    abline(v=xlim.minor, lwd=lwd.grid.minor, col=col.grid.minor)
-    abline(h=ylim.minor, lwd=lwd.grid.minor, col=col.grid.minor)
-    abline(v=xlim.major, lwd=lwd.grid.major, col=col.grid.major)
-    abline(h=ylim.major, lwd=lwd.grid.major, col=col.grid.major)
+  # Establish gridlines 
+  if (grid == TRUE) {
+    abline(v = xlim_minor, lwd = lwd_grid_minor, col = col_grid_minor)
+    abline(h = ylim_minor, lwd = lwd_grid_minor, col = col_grid_minor)
+    abline(v = xlim_major, lwd = lwd_grid_major, col = col_grid_major)
+    abline(h = ylim_major, lwd = lwd_grid_major, col = col_grid_major)
   }
   
-  #Put a box around the plot
-  box(which="plot", lty="solid")
+  # Put a box around the plot
+  box(which = "plot", lty = "solid")
   
-  #Include axes and labels
-  axis(1, at=xlim.major, tck=-0.018, cex.axis=axis.label.size)
-  axis(1, at=xlim.minor, tck=-0.01, labels=FALSE)
-  axis(2, at=ylim.major, tck=-0.018, cex.axis=axis.label.size)
-  axis(2, at=ylim.minor, tck=-0.01, labels=FALSE)
-  title(xlab=x.axis.label, line=1.75)
-  title(ylab=y.axis.label, line=2.25)
+  # Include axes and labels
+  axis(1, at = xlim_major, tck = -0.018, cex.axis = axis_label_size)
+  axis(1, at = xlim_minor, tck = -0.01, labels = FALSE)
+  axis(2, at = ylim_major, tck = -0.018, cex.axis = axis_label_size)
+  axis(2, at = ylim_minor, tck = -0.01, labels = FALSE)
+  title(xlab = x_axis_label, line = 1.75)
+  title(ylab = y_axis_label, line = 2.25)
   
-  #Give these multiple options with defaults
-  title(plot.title, cex.main=plot.title.size, font.main=1)
-  mtext(plot.subtitle, line=0.25, cex=plot.subtitle.size)
+  # Include title and subtitle
+  title(plot_title, cex.main = plot_title_size, font.main = 1)
+  mtext(plot_subtitle, line = 0.25, cex = plot_subtitle_size)
   
-  #Print a risk table beneath the plot if requested
-  if (print.risk.table==TRUE) {
-    #Print group names in bottom plotting margin
-    group.pos <- (par()$usr[2] - par()$usr[1])/(-8)  
-    pad <- abs(group.pos/8)
-    line.pos <- (1:length(group.names))[order(group.order)] + 2
+  # Print a risk table beneath the plot 
+  if (print_risk_table == TRUE) {
     
-    if (print.group.names==TRUE) {
-      mtext(group.names, side=1, line=line.pos, at=group.pos, 
-            adj=1, col=1, las=1, cex=axis.label.size )
+    # Print group names in bottom plotting margin
+    group_pos <- (par()$usr[2] - par()$usr[1]) / (-8)  
+    pad       <- abs(group_pos / 8)
+    line_pos  <- (1:length(group_names))[order(group_order)] + 2
+    
+    if (print_group_names == TRUE) {
+      mtext(group_names, 
+            side = 1, 
+            line = line_pos, 
+            at   = group_pos, 
+            adj  = 1, 
+            col  = 1, 
+            las  = 1, 
+            cex  = axis_label_size )
     }
     
-    #Print lines matching plot in bottom plotting margin  
-    if (print.group.lines==TRUE) {
-      par('xpd'=TRUE)
-      for (i in 1:length(group.names)) {
-        axis(side=1, at=c(group.pos + pad, 0 - 2*pad), 
-             labels=FALSE, 
-             line=line.pos[i] + 0.6, 
-             lwd.ticks=0,
-             col=col[i], lty=lty[i], lwd=lwd[i]) 
+    # Print lines matching plot in bottom plotting margin  
+    if (print_group_lines == TRUE) {
+      par('xpd' = TRUE)
+      for (i in 1:length(group_names)) {
+        axis(side      = 1, 
+             at        = c(group_pos + pad, 0 - 2*pad), 
+             labels    = FALSE, 
+             line      = line_pos[i] + 0.6, 
+             lwd_ticks = 0,
+             col       = col[i], 
+             lty       = lty[i], 
+             lwd       = lwd[i]) 
+        }
       }
-    }
     
-    #Extract risk groups
-    rsk <- summary(fit, times=xlim.major)  
+    # Extract risk groups
+    rsk <- summary(fit, times = xlim_major)  
+    
     #if(length(kms$strata)==1) kms$strata <- rep(1,length(kms$time) )
-    rskdat <- data.frame(time=rsk$time, 
-                         n.risk=rsk$n.risk, 
-                         strata=c(rsk$strata))
-    datsplit <- split(rskdat, f=rskdat$strata)
+    rskdat <- data.frame(time   = rsk$time, 
+                         n_risk = rsk$n.risk, 
+                         strata = c(rsk$strata))
+    datsplit <- split(rskdat, f = rskdat$strata)
     
-    #Print right-justified risk table values beneath plot
-    ndigits <- lapply(datsplit, function(x) nchar(x[,2]))
+    # Print right-justified risk table values beneath plot
+    ndigits <- lapply(datsplit, function(x) nchar(x[, 2]))
     mat <- do.call('rbind', 
                    lapply(ndigits, 
-                          function(z){ 
-                            length(z) <-  max(sapply(ndigits, length)); z
-                          } 
-                   ) 
-    )
-    matapply <- apply(mat, 2, max, na.rm=T)
-    for( i in seq(length(fit$strata)) ){
+                          function(z) { 
+                            length(z) <- max(sapply(ndigits, length))
+                            z
+                            } 
+                          ) 
+                        )
+    matapply <- apply(mat, 2, max, na.rm = T)
+    for (i in seq(length(fit$strata))) {
       iter <- datsplit[[i]] 
-      w.adj <- strwidth('0', cex=axis.label.size, font=par('font')) / 
-        2*matapply[1:nrow(iter)]
-      mtext(side=1,
-            at=iter$time + w.adj, 
-            text=iter$n.risk, 
-            line=line.pos[i], 
-            cex=axis.label.size, adj=1, col=1, las=1)
+      w.adj <- strwidth('0', cex = axis_label_size, font = par('font')) / 
+                  2*matapply[1:nrow(iter)]
+      mtext(side = 1,
+              at = iter$time + w.adj, 
+            text = iter$n_risk, 
+            line = line_pos[i], 
+             cex = axis_label_size,
+             adj = 1, 
+             col = 1, 
+             las = 1)
     }
     
     #Header for risk table
-    mtext(side=1, 
-          text=risk.table.title, 
-          at=group.pos, 
-          line=1.5, adj=1, col=1, las=1, cex=axis.label.size)
+    mtext(side = 1, 
+          text = risk_table_title, 
+            at = group_pos, 
+          line = 1.5, 
+           adj = 1, 
+           col = 1, 
+           las = 1, 
+           cex = axis_label_size)
   }
   
-  #Add the designated type of plot below
-  
-  #Standard KM plot
-  if (type=="km") {
+  # Draw the KM plot
+  if (type == "km") {
     lines(fit, 
-          conf.int=conf.int,
-          mark.time=mark.time,
-          col=col,
-          lty=lty,
-          lwd=lwd,
-          xmax=max(xlim.major),
-          ymin=min(ylim.major))
+          conf.int  = conf_int,
+          mark.time = mark_time,
+          col       = col,
+          lty       = lty,
+          lwd       = lwd,
+          xmax      = max(xlim_major),
+          ymin      = min(ylim_major))
   }
   
-  #KM complement plot
-  else if (type=="1-km") {
+  # Draw the KM complement plot
+  else if (type == "1-km") {
     lines(fit, 
-          fun=function(x) 1-x,
-          conf.int=conf.int,
-          mark.time=mark.time,
-          col=col,
-          lty=lty,
-          lwd=lwd,
-          xmax=max(xlim.major),
-          ymin=min(ylim.major))
+          fun       = function(x) 1-x,
+          conf.int  = conf_int,
+          mark.time = mark_time,
+          col       = col,
+          lty       = lty,
+          lwd       = lwd,
+          xmax      = max(xlim_major),
+          ymin      = min(ylim_major))
   }
   
-  #Legend options
-  if (legend==TRUE) {
-    legend(x=legend.x.loc, 
-           y=legend.y.loc, 
-           legend=group.names[group.order], 
-           col=col[group.order],
-           lty=lty[group.order],
-           lwd=lwd[group.order],
-           cex=axis.label.size,
-           bty="o", 
-           bg="white",
-           inset=0.01)
+  # Legend options
+  if (legend == TRUE) {
+    legend(x      = legend_x_loc, 
+           y      = legend_y_loc, 
+           legend = group_names[group_order], 
+           col    = col[group_order],
+           lty    = lty[group_order],
+           lwd    = lwd[group_order],
+           cex    = axis_label_size,
+           bty    = "o", 
+           bg     = "white",
+           inset  = 0.01)
   }  
   
-  #Reset original plotting parameters
+  # Reset original plotting parameters
   par(op)
 }
 
