@@ -43,14 +43,14 @@ pbc_km$SurvObj <- with(pbc_km,
 fit <- survfit(SurvObj ~ trt, 
                data = pbc_km, 
                conf.type = "log-log")
-
-# If gridlines are extending outside the plot border, run
+               
+# Usage note: if gridlines are extending outside the plot border, run
 # "dev.off()" and then run the plotting function again.
-
-# Default output
+               
+# Default options only
 km_plot(fit = fit)
 
-# Some customization
+# Customized pretty plot with some options
 km_plot(fit  = fit,
         type = "km",
         col  = c("orange3", "olivedrab"),
@@ -61,8 +61,25 @@ km_plot(fit  = fit,
         y_axis_label  = "Survival",
         x_axis_label  = "Time since registration (days)",
         group_names   = c("D-penacillamine", "Placebo"),
-        risk_table_title = bquote(italic("Patients at risk:"))
-        )
-        
-# Heavy customization
+        risk_table_title = bquote(italic("Patients at risk:")))
+
+# Customized retro plot with lots of options
+km_plot(fit  = fit,
+        font_family = "mono",
+        type = "1-km",
+        col  = c("black", "black"),
+        lty  = c(1, 2),
+        lwd  = c(2, 2),
+        xlim_major = c(0, 500, 1000, 2000, 3000, 3375, 4000, 4500, 5000),
+        col_grid_major = "gray80",
+        col_grid_minor = "gray92",
+        plot_title = bquote(bold("Cumulative incidence of death from transplant registration")),
+        plot_subtitle = "Mayo Clinic 1974-1984",
+        plot_title_size = 1,
+        y_axis_label = bquote(bold("Cumulative incidence")),
+        x_axis_label = bquote(bold("Days")),
+        group_names  = c("D-penacillamine", "Placebo"),
+        group_order  = c(2, 1),
+        risk_table_title  = bquote(bold(underline("RISK TABLE"))),
+        extra_left_margin = 5)
 }

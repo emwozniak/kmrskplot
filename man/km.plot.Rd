@@ -152,7 +152,6 @@ km_plot(fit  = fit,
         x_axis_label  = "Time since registration (days)",
         group_names   = c("D-penacillamine", "Placebo"),
         risk_table_title = bquote(italic("Patients at risk:")))
-}
 
 # Customized retro plot with lots of options
 km_plot(fit  = fit,
@@ -172,5 +171,5 @@ km_plot(fit  = fit,
         group_names  = c("D-penacillamine", "Placebo"),
         group_order  = c(2, 1),
         risk_table_title  = bquote(bold(underline("RISK TABLE"))),
-        extra_left_margin = 5
-)
+        extra_left_margin = 5)
+}
