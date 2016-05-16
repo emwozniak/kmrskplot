@@ -26,7 +26,7 @@ km_plot <- function(fit  = fit,
                     # Plotting options
                     conf_int  = FALSE,
                     mark_time = FALSE,
-                    col = rep("black", length(fit$strata)),
+                    col = rainbow(length(fit$strata)),
                     lty = rep(1, length(fit$strata)),
                     lwd = rep(1, length(fit$strata)),
                     
@@ -48,9 +48,9 @@ km_plot <- function(fit  = fit,
                     risk_table_title  = "Total at risk",
                     
                     # Legend options
-                    legend = FALSE,
                     group_names  = names(fit$strata),
                     group_order  = seq(length(fit$n)),
+                    legend = FALSE,
                     legend_x_loc = "bottomleft",
                     legend_y_loc = NULL
                     ) {

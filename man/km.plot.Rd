@@ -49,7 +49,7 @@
   Plot censoring tick marks? Optional logical; defaults to FALSE.
   }
   \item{col}{
-  Vector of colors for plotted curves. Optional; defaults to all black.
+  Vector of colors for plotted curves. Optional; defaults to ordered rainbow colors.
   }
   \item{lty}{
   Vector of line types for plotted curves. Optional; defaults to all solid.
