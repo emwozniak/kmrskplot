@@ -46,6 +46,11 @@ fit <- survfit(SurvObj ~ trt,
 
 # If gridlines are extending outside the plot border, run
 # "dev.off()" and then run the plotting function again.
+
+# Default output
+km_plot(fit = fit)
+
+# Some customization
 km_plot(fit  = fit,
         type = "km",
         col  = c("orange3", "olivedrab"),
@@ -56,5 +61,8 @@ km_plot(fit  = fit,
         y_axis_label  = "Survival",
         x_axis_label  = "Time since registration (days)",
         group_names   = c("D-penacillamine", "Placebo"),
-        risk_table_title = bquote(italic("Patients at risk:")))
+        risk_table_title = bquote(italic("Patients at risk:"))
+        )
+        
+# Heavy customization
 }
